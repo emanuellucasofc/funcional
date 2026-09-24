@@ -57,7 +57,7 @@ async function bootstrap() {
   app.register(auditRoutes, { prefix: '/audit-logs' })
 
   // Global error handler
-  app.setErrorHandler((error, request, reply) => {
+  app.setErrorHandler((error: any, request, reply) => {
     app.log.error(error)
     if (error.validation) {
       return reply.status(400).send({ error: 'Dados inválidos', details: error.validation })
