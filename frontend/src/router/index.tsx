@@ -14,6 +14,8 @@ import SettingsPage from '../pages/SettingsPage'
 import CalendarPage from '../pages/CalendarPage'
 import UsersPage from '../pages/UsersPage'
 
+import FrequencyPage from '../pages/FrequencyPage'
+
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth()
   if (isLoading) return <div className="h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-2 border-emerald-500 border-t-transparent" /></div>
@@ -39,7 +41,7 @@ export const router = createBrowserRouter([
       { path: 'configuracoes', element: <SettingsPage /> },
       { path: 'usuarios', element: <UsersPage /> },
       { path: 'calendario', element: <CalendarPage /> },
-      { path: 'frequencia', element: <CalendarPage /> }, // Redirecionando frequencia para o calendário
+      { path: 'frequencia', element: <FrequencyPage /> },
     ],
   },
 ])
