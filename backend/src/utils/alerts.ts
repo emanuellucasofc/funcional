@@ -11,8 +11,8 @@ export async function generateAlertsForStudent(
   const alertLimit = settings?.alertAbsences ?? 3
   const criticalLimit = settings?.criticalAbsences ?? 4
 
-  const startDate = new Date(year, month - 1, 1)
-  const endDate = new Date(year, month, 0)
+  const startDate = new Date(Date.UTC(year, month - 1, 1))
+  const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999))
 
   const absencesCount = await prisma.attendance.count({
     where: {
@@ -22,7 +22,13 @@ export async function generateAlertsForStudent(
     },
   })
 
-  if (absencesCount < warningLimit) return
+  if (absencesCount < warningLimit) {
+    // Se o professor remover a falta, exclui o alerta que já tinha sido gerado neste mês
+    await prisma.alert.deleteMany({
+      where: { studentId, month, year }
+    })
+    return
+  }
 
   let type: AlertType
   let message: string
