@@ -95,10 +95,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          <p className="text-slate-500 text-xs text-center mt-6">
-            admin@funcional.com / admin123
-          </p>
         </div>
       </div>
     </div>
