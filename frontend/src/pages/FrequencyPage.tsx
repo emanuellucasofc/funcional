@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { CheckCircle, XCircle, Activity } from 'lucide-react'
 import {
   BarChart,
   Bar,
@@ -53,6 +54,10 @@ export default function FrequencyPage() {
     'Taxa (%)': item.percentage,
   })) ?? []
 
+  const totalPresentes = report?.reduce((acc: number, curr: any) => acc + curr.present, 0) ?? 0
+  const totalFaltas = report?.reduce((acc: number, curr: any) => acc + curr.absent, 0) ?? 0
+  const taxaGeral = (totalPresentes + totalFaltas) > 0 ? Math.round((totalPresentes / (totalPresentes + totalFaltas)) * 100) : 0
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -81,6 +86,38 @@ export default function FrequencyPage() {
               <option key={y} value={y}>{y}</option>
             ))}
           </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="card flex items-center gap-4 py-5">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-100">
+            <CheckCircle className="w-6 h-6 text-emerald-600" />
+          </div>
+          <div>
+            <p className="text-slate-500 text-sm">Total de Presenças</p>
+            <p className="text-2xl font-bold text-slate-800">{totalPresentes}</p>
+          </div>
+        </div>
+        
+        <div className="card flex items-center gap-4 py-5">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-red-100">
+            <XCircle className="w-6 h-6 text-red-500" />
+          </div>
+          <div>
+            <p className="text-slate-500 text-sm">Total de Faltas</p>
+            <p className="text-2xl font-bold text-slate-800">{totalFaltas}</p>
+          </div>
+        </div>
+
+        <div className="card flex items-center gap-4 py-5">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-100">
+            <Activity className="w-6 h-6 text-blue-500" />
+          </div>
+          <div>
+            <p className="text-slate-500 text-sm">Taxa Geral</p>
+            <p className="text-2xl font-bold text-slate-800">{taxaGeral}%</p>
+          </div>
         </div>
       </div>
 
@@ -172,3 +209,4 @@ export default function FrequencyPage() {
     </div>
   )
 }
+
