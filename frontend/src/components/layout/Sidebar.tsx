@@ -18,7 +18,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { cn } from '../../lib/utils'
 
 const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/', icon: LayoutDashboard, label: 'Principal' },
   { to: '/alunos', icon: Users, label: 'Alunos' },
   { to: '/turmas', icon: Calendar, label: 'Turmas e Horários' },
   { to: '/calendario', icon: CalendarDays, label: 'Calendário' },
