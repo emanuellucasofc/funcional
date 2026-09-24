@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -121,7 +121,7 @@ export default function StudentFormPage() {
   }, [student, form])
 
   const mutation = useMutation({
-    mutationFn: async (data: StudentFormValues) => {
+    mutationFn: async (data: any) => {
       // Remove null values so backend can handle them appropriately if needed
       if (isEditing) {
         await api.put(`/students/${id}`, data)
