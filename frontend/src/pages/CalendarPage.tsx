@@ -51,10 +51,10 @@ export default function CalendarPage() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-slate-800">Calendário de Treinos</h1>
         
-        <div className="flex items-center gap-4 bg-white px-4 py-2 rounded-lg border shadow-sm">
+        <div className="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-xl border shadow-sm">
           <button onClick={prevMonth} className="p-1 hover:bg-slate-100 rounded">
             <ChevronLeft className="w-5 h-5 text-slate-600" />
           </button>
@@ -67,64 +67,66 @@ export default function CalendarPage() {
         </div>
       </div>
 
-      <div className="card p-6">
-        <div className="grid grid-cols-7 gap-px mb-2 text-center">
-          {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(day => (
-            <div key={day} className="font-semibold text-slate-500 text-sm py-2">
-              {day}
-            </div>
-          ))}
-        </div>
-
-        {isLoading ? (
-          <div className="h-64 flex items-center justify-center">Carregando...</div>
-        ) : (
-          <div className="grid grid-cols-7 gap-2">
-            {allDays.map((day, index) => {
-              if (typeof day === 'string') {
-                return <div key={day} className="min-h-24 rounded-lg bg-transparent border-0" />
-              }
-
-              const dateStr = day.toISOString().split('T')[0]
-              const info = calendarData?.[dateStr]
-              const today = isToday(day)
-
-              return (
-                <div 
-                  key={dateStr} 
-                  className={`min-h-28 border rounded-lg p-3 transition-all ${getStatusClasses(info?.status)} ${today ? 'ring-2 ring-emerald-500 ring-offset-1' : ''}`}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <span className={`text-sm font-bold ${today ? 'text-emerald-600' : 'text-slate-700'}`}>
-                      {format(day, 'd')}
-                    </span>
-                    {info && getStatusIcon(info.status)}
-                  </div>
-                  
-                  {info && (
-                    <div className="text-xs space-y-1 mt-3">
-                      <div className="font-medium text-slate-700">
-                        {info.status === 'FUTURE' ? 'Previsto' : 'Chamada:'}
-                      </div>
-                      <div className="text-slate-500">
-                        {info.marked} / {info.total} alunos
-                      </div>
-                      {info.status === 'COMPLETE' && (
-                        <div className="text-emerald-600 font-medium mt-1">Concluída</div>
-                      )}
-                      {info.status === 'PARTIAL' && (
-                        <div className="text-amber-600 font-medium mt-1">Incompleta</div>
-                      )}
-                      {info.status === 'PENDING' && (
-                        <div className="text-red-600 font-medium mt-1">Pendente</div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
+      <div className="card p-0 sm:p-6 overflow-x-auto">
+        <div className="min-w-[768px] p-4 sm:p-0">
+          <div className="grid grid-cols-7 gap-px mb-2 text-center">
+            {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(day => (
+              <div key={day} className="font-semibold text-slate-500 text-sm py-2">
+                {day}
+              </div>
+            ))}
           </div>
-        )}
+
+          {isLoading ? (
+            <div className="h-64 flex items-center justify-center">Carregando...</div>
+          ) : (
+            <div className="grid grid-cols-7 gap-2">
+              {allDays.map((day, index) => {
+                if (typeof day === 'string') {
+                  return <div key={day} className="min-h-24 rounded-lg bg-transparent border-0" />
+                }
+
+                const dateStr = day.toISOString().split('T')[0]
+                const info = calendarData?.[dateStr]
+                const today = isToday(day)
+
+                return (
+                  <div 
+                    key={dateStr} 
+                    className={`min-h-28 border rounded-lg p-2 sm:p-3 transition-all ${getStatusClasses(info?.status)} ${today ? 'ring-2 ring-emerald-500 ring-offset-1' : ''}`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <span className={`text-sm font-bold ${today ? 'text-emerald-600' : 'text-slate-700'}`}>
+                        {format(day, 'd')}
+                      </span>
+                      {info && getStatusIcon(info.status)}
+                    </div>
+                    
+                    {info && (
+                      <div className="text-xs space-y-1 mt-2 sm:mt-3">
+                        <div className="font-medium text-slate-700">
+                          {info.status === 'FUTURE' ? 'Previsto' : 'Chamada:'}
+                        </div>
+                        <div className="text-slate-500">
+                          {info.marked} / {info.total} alunos
+                        </div>
+                        {info.status === 'COMPLETE' && (
+                          <div className="text-emerald-600 font-medium mt-1">Concluída</div>
+                        )}
+                        {info.status === 'PARTIAL' && (
+                          <div className="text-amber-600 font-medium mt-1">Incompleta</div>
+                        )}
+                        {info.status === 'PENDING' && (
+                          <div className="text-red-600 font-medium mt-1">Pendente</div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-6 items-center text-sm text-slate-600 bg-white p-4 rounded-lg border">
